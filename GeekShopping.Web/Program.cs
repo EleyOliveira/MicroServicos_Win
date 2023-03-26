@@ -1,5 +1,6 @@
 using GeekShopping.Web.Services;
 using GeekShopping.Web.Services.IServices;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IProductService,ProductService>(
     c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductApi"])
     );
+
+//Permite que a propriedade Price reconheça o ponto decimal
+var cultureInfo = new CultureInfo("pt-BR");
+cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+cultureInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var app = builder.Build();
 
