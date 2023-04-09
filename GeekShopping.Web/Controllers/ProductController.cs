@@ -14,12 +14,10 @@ namespace GeekShopping.Web.Controllers
         {
             _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         }
-
-        [Authorize]
+                
         public async Task<IActionResult> ProductIndex()
-        {
-            var token = await HttpContext.GetTokenAsync("access_token");
-            var products = await _productService.FindAll(token);
+        {            
+            var products = await _productService.FindAll("");
             return View(products);
         }
         public async Task<IActionResult> ProductCreate()
