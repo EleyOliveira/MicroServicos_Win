@@ -53,7 +53,46 @@ namespace GeekShopping.CartAPI.Repository
             { 
                 _context.Products.Add(cart.CartDetails.FirstOrDefault().Product);
                 await _context.SaveChangesAsync();
-            }            
+            }
+
+            var cartHeader = await _context.CartHeaders.AsNoTracking().FirstOrDefaultAsync(
+                c => c.UserId == cart.CartHeader.UserId);
+
+            if (cartHeader == null) 
+            { 
+                _context.CartHeaders.Add(cart.CartHeader);
+                await _context.SaveChangesAsync();
+                cart.CartDetails.FirstOrDefault().CartHeaderId = cart.CartHeader.Id;
+                cart.CartDetails.FirstOrDefault().Product = null;
+                _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var cartDetail = await _context.CartDetails.AsNoTracking().FirstOrDefaultAsync(
+                    p => p.ProductId == vo.CartDetails.FirstOrDefault().ProductId &&
+                    p.CartHeaderId == cartHeader.Id);
+                
+                if (cartDetail == null) 
+                {
+                    cart.CartDetails.FirstOrDefault().CartHeaderId = cart.CartHeader.Id;
+                    cart.CartDetails.FirstOrDefault().Product = null;
+                    _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    cart.CartDetails.FirstOrDefault().Product = null;
+                    cart.CartDetails.FirstOrDefault().Count += cartDetail.Count; 
+                    cart.CartDetails.FirstOrDefault().Id = cartDetail.Id;
+                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartDetail.CartHeaderId;
+                    _context.CartDetails.Update(cart.CartDetails.FirstOrDefault());
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return _mapper.Map<CartVO>(cart);
+
         }
     }
 }
