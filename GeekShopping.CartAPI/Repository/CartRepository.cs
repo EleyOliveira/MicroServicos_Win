@@ -91,7 +91,7 @@ namespace GeekShopping.CartAPI.Repository
             Cart cart = _mapper.Map <Cart>(vo);
 
             var product = await _context.Products.FirstOrDefaultAsync(
-                          p => p.Id == vo.CartDetails.FirstOrDefault().ProductId);
+                          p => p.Id == cart.CartDetails.FirstOrDefault().ProductId);
 
             if (product == null) 
             { 
@@ -106,7 +106,7 @@ namespace GeekShopping.CartAPI.Repository
             { 
                 _context.CartHeaders.Add(cart.CartHeader);
                 await _context.SaveChangesAsync();
-                cart.CartDetails.FirstOrDefault().CartHeaderId = cart.CartHeader.Id;
+                cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.Id;
                 cart.CartDetails.FirstOrDefault().Product = null;
                 _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
                 await _context.SaveChangesAsync();
@@ -114,7 +114,7 @@ namespace GeekShopping.CartAPI.Repository
             else
             {
                 var cartDetail = await _context.CartDetails.AsNoTracking().FirstOrDefaultAsync(
-                    p => p.ProductId == vo.CartDetails.FirstOrDefault().ProductId &&
+                    p => p.ProductId == cart.CartDetails.FirstOrDefault().ProductId &&
                     p.CartHeaderId == cartHeader.Id);
                 
                 if (cartDetail == null) 
