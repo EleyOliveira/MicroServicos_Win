@@ -1,7 +1,9 @@
 ﻿using GeekShopping.Web.Models;
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Utils;
+using System.Buffers.Text;
 using System.Net.Http.Headers;
+using System.Reflection;
 
 namespace GeekShopping.Web.Services
 {
@@ -24,17 +26,32 @@ namespace GeekShopping.Web.Services
 
         public async Task<bool> RemoveFromCart(long cartId, string token)
         {
-            throw new NotImplementedException();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.DeleteAsync($"{BasePath}/remove-cart/{cartId}");
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<bool>();
+            else
+                throw new Exception("Algo deu errado por aqui!!!");
         }
 
-        public async Task<CartViewModel> AddItemToCart(CartViewModel cart, string token)
+        public async Task<CartViewModel> AddItemToCart(CartViewModel model, string token)
         {
-            throw new NotImplementedException();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PostAsJson($"{BasePath}/add-cart", model);
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<CartViewModel>();
+            else
+                throw new Exception("Algo deu errado por aqui!!!");
         }
         
-        public async Task<CartViewModel> UpdateCart(CartViewModel cart, string token)
+        public async Task<CartViewModel> UpdateCart(CartViewModel model, string token)
         {
-            throw new NotImplementedException();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PutAsJson($"{BasePath}/update-cart", model);
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<CartViewModel>();
+            else
+                throw new Exception("Algo deu errado por aqui!!!");
         }
 
         public async Task<bool> ApplyCoupon(CartViewModel cart, string couponCode, string token)
