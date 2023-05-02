@@ -8,11 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IProductService,ProductService>(
-    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductApi"])
-    );
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductApi"]));
+
 builder.Services.AddHttpClient<ICartService,CartService>(
-    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartApi"])
-    );
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartApi"]));
+
+builder.Services.AddHttpClient<ICouponService, CouponService>(
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponApi"]));
+
 builder.Services.AddAuthentication(options => 
 { 
     options.DefaultScheme = "Cookies";
