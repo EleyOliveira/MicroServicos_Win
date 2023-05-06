@@ -64,9 +64,16 @@ namespace GeekShopping.Web.Services
                 throw new Exception("Algo deu errado por aqui!!!");
         }
 
-        public async Task<CartViewModel> Checkout(CartHeaderViewModel cartHeader, string token)
+        public async Task<CartHeaderViewModel> Checkout(CartHeaderViewModel model, string token)
         {
-            throw new NotImplementedException();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PostAsJson($"{BasePath}/checkout", model);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.ReadContentAs<CartHeaderViewModel>();
+            }
+            else
+                throw new Exception("Algo deu errado por aqui!!!");
         }
 
         public async Task<bool> ClearCart(string userId, string token)
