@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.CouponAPI", "G
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{D5C6F3B4-788E-4B4B-9901-C20F0B04702D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.MessageBus", "GeekShopping.MessageBus\GeekShopping.MessageBus.csproj", "{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.MessageBus", "GeekShopping.MessageBus\GeekShopping.MessageBus.csproj", "{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.OrderAPI", "GeekShopping.OrderAPI\GeekShopping.OrderAPI.csproj", "{8AE7151B-82E8-433F-A5B0-E76D1F684CF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AE7151B-82E8-433F-A5B0-E76D1F684CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AE7151B-82E8-433F-A5B0-E76D1F684CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AE7151B-82E8-433F-A5B0-E76D1F684CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AE7151B-82E8-433F-A5B0-E76D1F684CF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{05DB95EB-81AF-4501-9ECE-05E5471BCB28} = {11815687-A24B-4E17-BBB5-DE8D7FD11EF4}
 		{4C332EDA-1938-40F3-87FE-FE37D6AF4FA2} = {11815687-A24B-4E17-BBB5-DE8D7FD11EF4}
 		{DC379BCA-71A3-4B7E-A58E-1AB9CF9C6708} = {D5C6F3B4-788E-4B4B-9901-C20F0B04702D}
+		{8AE7151B-82E8-433F-A5B0-E76D1F684CF5} = {11815687-A24B-4E17-BBB5-DE8D7FD11EF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8454D74-1172-48D7-881E-BE1748FCF41D}
