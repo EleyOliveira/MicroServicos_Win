@@ -8,13 +8,13 @@ using System.Text.Json;
 
 namespace GeekShopping.OrderAPI.MessageConsumer
 {
-    public class RabbitMQMessageConsumer : BackgroundService
+    public class RabbitMQCheckoutConsumer : BackgroundService
     {
         private readonly OrderRepository _orderRepository;
         private readonly IConnection _connection;
         private IModel _channel;
 
-        public RabbitMQMessageConsumer(OrderRepository orderRepository)
+        public RabbitMQCheckoutConsumer(OrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
 
@@ -50,8 +50,36 @@ namespace GeekShopping.OrderAPI.MessageConsumer
         {
             OrderHeader order = new()
             {
-
+                UserId = vo.UserId,
+                FirstName = vo.FirstName,
+                LastName = vo.LastName,
+                CardNumber = vo.CardNumber,
+                CouponCode = vo.CouponCode,
+                CVV = vo.CVV,               
+                DateTime = vo.DateTime,
+                Email = vo.Email,
+                DiscountAmount = vo.DiscountAmount,
+                ExpiryMonthYear = vo.ExpiryMonthYear,
+                PurchaseAmount = vo.PurchaseAmount,
+                OrderTime = DateTime.Now,
+                PaymentStatus = false,
+                OrderDetails = new List<OrderDetail>(),
+                Phone = vo.Phone                
             };
+
+            foreach (var details in vo.CartDetails)
+            {
+                OrderDetail detail = new()
+                {
+                    ProductId = details.ProductId,
+                    ProductName = details.Product.Name,
+                    Price = details.Product.Price,
+                    Count = details.Count
+                };
+                order.CartTotalItens += details.Count;
+                order.OrderDetails.Add(detail);
+            }
+            await _orderRepository.AddOrder(order);
         }
     }
 }
