@@ -1,9 +1,9 @@
-﻿using GeekShopping.CouponAPI.Data.ValueObjects;
+﻿using GeekShopping.CartAPI.Data.ValueObjects;
 
 namespace GeekShopping.CartAPI.Repository
 {
     public interface ICouponRepository
     {
-        Task<CouponVO> GetCouponByCouponCode(string couponCode);
+        Task<CouponVO> GetCouponByCouponCode(string couponCode, string token);
     }
 }
