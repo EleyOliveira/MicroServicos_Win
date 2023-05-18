@@ -2,6 +2,7 @@
 using GeekShopping.CartAPI.Messages;
 using GeekShopping.CartAPI.RabbitMQSender;
 using GeekShopping.CartAPI.Repository;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.CartAPI.Controllers
@@ -80,8 +81,8 @@ namespace GeekShopping.CartAPI.Controllers
             
             if (!string.IsNullOrEmpty(vo.CouponCode)) 
             {
-                string token = Request.Headers["Authorization"];
-                CouponVO coupon = await _couponRepository.GetCouponByCouponCode(vo.CouponCode, token);
+                string token = await HttpContext.GetTokenAsync("access_token");
+                CouponVO coupon = await _couponRepository.GetCoupon(vo.CouponCode, token);
                 if (vo.DiscountAmount != coupon.DiscountAmount)
                 {
                     return StatusCode(412);
