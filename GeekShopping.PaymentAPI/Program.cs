@@ -1,4 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+using GeekShopping.PaymentAPI.MessageConsumer;
+using GeekShopping.PaymentAPI.RabbitMQSender;
+using GeekShopping.PaymentProcessor;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -59,18 +61,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-var connection = builder.Configuration.GetConnectionString("MySQLConnectionString");
-builder.Services.AddDbContext<MySQLContext>(options => options.
-                                            UseMySql(connection,
-                                                new MySqlServerVersion(
-                                                    new Version(8, 0, 32))));
-
-var dbContextBuilder = new DbContextOptionsBuilder<MySQLContext>();
-dbContextBuilder.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 32)));
-
-builder.Services.AddSingleton(new OrderRepository(dbContextBuilder.Options));
-builder.Services.AddHostedService<RabbitMQCheckoutConsumer>();
 builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
+builder.Services.AddHostedService<RabbitMQPaymentConsumer>();
+builder.Services.AddSingleton<IProcessPayment, ProcessPayment>();
 
 var app = builder.Build();
 
