@@ -19,7 +19,7 @@
       }
     },
     "IIS Express": {
-      "commandName": "Project",
+      "commandName": "Project", 
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7096/",
       "environmentVariables": {
