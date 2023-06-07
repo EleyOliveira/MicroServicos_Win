@@ -55,6 +55,7 @@ namespace GeekShopping.ProductAPI.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> Delete(long id)
         {
+            //TODO: Botão de delete não aparece
             var status = await _repository.Delete(id);
             if (!status) return BadRequest();
             return Ok(status);
